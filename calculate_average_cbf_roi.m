@@ -25,17 +25,29 @@ function [] = calculate_average_cbf_roi(file_pv, file_data)
 	count   = zeros(9, 1);
 	average = zeros(9, 1);
 
+	l = 0;
+
 	for i = 1 : x
 		for j = 1 : y
 			for k = 1 : z
 
 				% Continue to next iteration if there is negative value
-				if(matrix_data(i, j, k) <= 0)
+				if(matrix_data(i, j, k) < 0)
+					continue;
+				end
+
+				% Continue to next iteration if the value is too high
+				if(matrix_data(i, j, k) >= 500)
 					continue;
 				end
 
 				% Check probability of current PV voxel,and assign corresponding data voxel to appropriate bins
 				pv_value = matrix_pv(i, j, k) * 100;
+
+				% Continue to next iteration if pv is less or equal to 10%
+				if(pv_value < 10)
+					continue;
+				end
 
 				if(pv_value >= 10 && pv_value < 20)
 					bin(1, 1) = bin(1, 1) + matrix_data(i, j, k);
