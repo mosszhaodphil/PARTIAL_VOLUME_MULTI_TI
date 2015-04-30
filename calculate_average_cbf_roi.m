@@ -30,16 +30,21 @@ function [] = calculate_average_cbf_roi(file_pv, file_data)
 			for k = 1 : z
 
 				% Continue to next iteration if there is negative value
-				if(matrix_data(i, j, k) <= 0)
+				if(matrix_data(i, j, k) <= 0 || isnan(matrix_data(i, j, k)) || isinf(matrix_data(i, j, k)))
 					continue;
 				end
 
 				% Check probability of current PV voxel,and assign corresponding data voxel to appropriate bins
 				pv_value = matrix_pv(i, j, k) * 100;
 
+				if(pv_value < 10)
+					continue;
+				end
+
 				if(pv_value >= 10 && pv_value < 20)
 					bin(1, 1) = bin(1, 1) + matrix_data(i, j, k);
 					count(1, 1) = count(1, 1) + 1;
+
 				end
 				if(pv_value >= 20 && pv_value < 30)
 					bin(2, 1) = bin(2, 1) + matrix_data(i, j, k);
@@ -81,6 +86,8 @@ function [] = calculate_average_cbf_roi(file_pv, file_data)
 
 	% Calculate the average value of each bin
 	average = bin ./ count;
+	bin
+	count
 
 	dlmwrite(file_output, average); % save noncrushed ASL data to a text file
 
