@@ -14,22 +14,22 @@ function pv_correct(data_file, gm_file, wm_file, mask_file, kernel_size)
     file_name_data_wm = strcat(data_file, '_wm_k', num2str(kernel_size));
     
     % Load data files
-    [data,dims,scales] = ra(data_file);
-    gm                 = ra(gm_file);
-    wm                 = ra(wm_file);
-    mask               = ra(mask_file);
+    %[data,dims,scales] = ra(data_file);
+    %gm                 = ra(gm_file);
+    %wm                 = ra(wm_file);
+    %mask               = ra(mask_file);
 
     % UAT Moss
-    %data_file_handle = load_nii(strcat(data_file, file_name_extension));
-    %gm_file_handle   = load_nii(strcat(gm_file, file_name_extension));
-    %wm_file_handle   = load_nii(strcat(wm_file, file_name_extension));
-    %mask_file_handle = load_nii(strcat(mask_file, file_name_extension));
+    data_file_handle = load_nii(strcat(data_file, file_name_extension));
+    gm_file_handle   = load_nii(strcat(gm_file, file_name_extension));
+    wm_file_handle   = load_nii(strcat(wm_file, file_name_extension));
+    mask_file_handle = load_nii(strcat(mask_file, file_name_extension));
 
     % UAT Moss
-    %data = data_file_handle.img;
-    %gm   = gm_file_handle.img;
-    %wm   = wm_file_handle.img;
-    %mask = mask_file_handle.img;
+    data = data_file_handle.img;
+    gm   = gm_file_handle.img;
+    wm   = wm_file_handle.img;
+    mask = mask_file_handle.img;
 
     % Concatinate along the time dimension
     pve = cat(4, gm, wm);
@@ -113,16 +113,16 @@ function pv_correct(data_file, gm_file, wm_file, mask_file, kernel_size)
     end
 
     % Save results
-    save_avw(GMdata, file_name_data_gm, 'f', scales);
-    save_avw(GMdata, file_name_data_wm, 'f', scales);
+    %save_avw(GMdata, file_name_data_gm, 'f', scales);
+    %save_avw(GMdata, file_name_data_wm, 'f', scales);
 
     % UAT Moss
-    %gm_file_handle.img = GMdata;
-    %wm_file_handle.img = WMdata;
+    gm_file_handle.img = GMdata;
+    wm_file_handle.img = WMdata;
 
     % UAT Moss
-    %save_nii(gm_file_handle, strcat(file_name_data_gm, '.nii.gz'));
-    %save_nii(wm_file_handle, strcat(file_name_data_wm, '.nii.gz'));
+    save_nii(gm_file_handle, strcat(file_name_data_gm, '.nii.gz'));
+    save_nii(wm_file_handle, strcat(file_name_data_wm, '.nii.gz'));
 
     display(['Results saved in ' file_name_data_gm ' and ' file_name_data_wm]);
     display('Finish');
