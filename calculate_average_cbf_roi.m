@@ -13,12 +13,6 @@ function [] = calculate_average_cbf_roi(file_pv, file_data)
 
 	file_extension = '.nii.gz';
 
-	% Pre-processing: reorientate and remove NaN and Infinitive voxels
-	reoriente_nifty_file(file_pv);
-	reoriente_nifty_file(file_data);
-	correct_NaN_voxels(file_pv);
-	correct_NaN_voxels(file_data);
-
 	% Load input files
 	handle_pv   = load_nii(strcat(file_pv, file_extension));
 	handle_data = load_nii(strcat(file_data, file_extension));
