@@ -24,6 +24,7 @@ function [] = calculate_average_cbf_roi(file_pv, file_data)
 	bin     = zeros(9, 1);
 	count   = zeros(9, 1);
 	average = zeros(9, 1);
+	non_count = 0;
 
 	for i = 1 : x
 		for j = 1 : y
@@ -31,6 +32,9 @@ function [] = calculate_average_cbf_roi(file_pv, file_data)
 
 				% Continue to next iteration if there is negative value
 				if(matrix_data(i, j, k) <= 0 || isnan(matrix_data(i, j, k)) || isinf(matrix_data(i, j, k)))
+					%if(matrix_data(i, j, k) < 0 && matrix_pv(i, j, k)  >= 90)
+					%	non_count = non_count + 1;
+					%end
 					continue;
 				end
 
@@ -86,6 +90,9 @@ function [] = calculate_average_cbf_roi(file_pv, file_data)
 
 	% Calculate the average value of each bin
 	average = bin ./ count;
+
+	%non_count
+	%count
 
 	dlmwrite(file_output, average); % save noncrushed ASL data to a text file
 
